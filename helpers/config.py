@@ -1,11 +1,12 @@
-from dataclasses import dataclass, field
-from typing import List, Optional, Union, Literal
-from dataclass_wizard import YAMLWizard # type: ignore
+from dataclasses import dataclass
+from typing import Literal
+
+from dataclass_wizard import YAMLWizard  # type: ignore
 
 
 @dataclass(frozen=True)
 class ClientConfig(YAMLWizard):
-    type: Literal['qbittorrent', 'deluge', 'transmission']
+    type: Literal["qbittorrent", "deluge", "transmission"]
     url: str
     username: str
     password: str
@@ -17,75 +18,80 @@ class ClientConfig(YAMLWizard):
 @dataclass(frozen=True)
 class IgnoreStreamConfig(YAMLWizard):
     local: bool
-    ip_networks: Optional[tuple[str, ...]]
+    ip_networks: tuple[str, ...] | None
     paused_after: int
+
 
 @dataclass(frozen=True)
 class MediaServerConfig(YAMLWizard):
-    type: Literal['plex', 'tautulli', 'jellyfin', 'emby']
+    type: Literal["plex", "tautulli", "jellyfin", "emby"]
     url: str
     https_verify: bool
     bandwidth_multiplier: float
     update_interval: int
     ignore_streams: IgnoreStreamConfig
-    token: Optional[str] = None
-    api_key: Optional[str] = None
+    token: str | None = None
+    api_key: str | None = None
 
     def __hash__(self) -> int:
         return super().__hash__()
+
 
 @dataclass(frozen=True)
 class ScheduleConfig(YAMLWizard):
     start: str
     end: str
-    days: tuple[Literal['all', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], ...]
-    upload: Union[int, str]
-    download: Union[int, str]
+    days: tuple[Literal["all", "mon", "tue", "wed", "thu", "fri", "sat", "sun"], ...]
+    upload: int | str
+    download: int | str
+
 
 @dataclass(frozen=True)
 class ModulesConfig(YAMLWizard):
-    media_servers: Optional[List[MediaServerConfig]]
-    schedule: Optional[List[ScheduleConfig]]
+    media_servers: list[MediaServerConfig] | None
+    schedule: list[ScheduleConfig] | None
+
 
 @dataclass(frozen=True)
 class SpeedrrConfig(YAMLWizard):
-    logs_path: Optional[str]
+    logs_path: str | None
     units: Literal[
-        'bit',
-        'B',
-        'byte',
-        'Kbit',
-        'kilobit',
-        'Kibit',
-        'kibibit',
-        'KB',
-        'kilobyte',
-        'KiB',
-        'kibibyte',
-        'Mbit',
-        'megabit',
-        'Mibit',
-        'mebibit',
-        'MB',
-        'megabyte',
-        'MiB',
-        'mebibyte',
-        'Gbit',
-        'gigabit',
-        'Gibit',
-        'gibibit',
-        'GB',
-        'gigabyte',
-        'GiB',
-        'gibibyte',
+        "bit",
+        "B",
+        "byte",
+        "Kbit",
+        "kilobit",
+        "Kibit",
+        "kibibit",
+        "KB",
+        "kilobyte",
+        "KiB",
+        "kibibyte",
+        "Mbit",
+        "megabit",
+        "Mibit",
+        "mebibit",
+        "MB",
+        "megabyte",
+        "MiB",
+        "mebibyte",
+        "Gbit",
+        "gigabit",
+        "Gibit",
+        "gibibit",
+        "GB",
+        "gigabyte",
+        "GiB",
+        "gibibyte",
     ]
     min_upload: int
     max_upload: int
     min_download: int
     max_download: int
-    clients: List[ClientConfig]
+    clients: list[ClientConfig]
     modules: ModulesConfig
-    manual_speed_algorithm_share: Optional[bool] = False
+    manual_speed_algorithm_share: bool | None = False
+
 
 def load_config(config_file: str) -> SpeedrrConfig:
     config = SpeedrrConfig.from_yaml_file(config_file)

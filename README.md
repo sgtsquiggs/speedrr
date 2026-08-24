@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/itschasa/speedrr/master/images/speedrr_text.png" alt="speedrr" width="336" height="84">
+    <img src="https://raw.githubusercontent.com/sgtsquiggs/speedrr/main/images/speedrr_text.png" alt="speedrr" width="336" height="84">
     <br/>
     <h1>speedrr - Dynamic Upload and Download Speed Manager for Torrenting</h1>
 </p>
@@ -39,7 +39,7 @@ This script is ideal for users with limited upload speed, however anyone can use
 ### Docker
 Pull the image with:
 ```cmd
-docker pull itschasa/speedrr
+docker pull ghcr.io/sgtsquiggs/speedrr
 ```
 
 Your config file should be stored outside of the container, for easy editing.
@@ -53,7 +53,7 @@ docker run -d
     -v /folder_with_config/:/data/
     --name speedrr
     --network host
-    itschasa/speedrr
+    ghcr.io/sgtsquiggs/speedrr
 ```
 
 ### Unraid
@@ -61,28 +61,28 @@ docker run -d
 ```
 cd /boot/config/plugins/dockerMan/templates-user && touch my-speedrr.xml && nano my-speedrr.xml
 ```
-2. Go to <a href="https://raw.githubusercontent.com/itschasa/speedrr/main/speedrr-unraid.xml">speedrr-unraid.xml</a>, and copy and paste it into your console.
+2. Go to <a href="https://raw.githubusercontent.com/sgtsquiggs/speedrr/main/speedrr-unraid.xml">speedrr-unraid.xml</a>, and copy and paste it into your console.
 3. Press Ctrl+O, then Enter, then Ctrl+X (to save the file and exit).
 4. Open your WebUI > `Docker` > `Add Container`.
 5. Click `Select a template`, and select `speedrr`.
 6. The options should be fine as they are defaulted. Apply changes.
-7. Using the <a href="https://github.com/itschasa/speedrr/blob/main/config.yaml">template</a>, create config.yaml in your /appdata/speedrr/ folder, and fill out the config.
+7. Using the <a href="https://github.com/sgtsquiggs/speedrr/blob/main/config.yaml">template</a>, create config.yaml in your /appdata/speedrr/ folder, and fill out the config.
 8. Start/Restart the container in the WebUI.
 9. Check everything is working in the logs (Docker Logs).
 
 ### Source
 1. Download the source code.
-2. Install Python 3.10 (other versions should work).
-3. Install the required modules with `python -m pip install -r requirements.txt`.
+2. Install [uv](https://docs.astral.sh/uv/); it will fetch Python 3.10 for you.
+3. Install the required modules with `uv sync`.
 4. Edit the config to your liking.
-5. Run `python main.py --config_path config.yaml` to start.
+5. Run `uv run python main.py --config_path config.yaml` to start.
 
 
 ## Contributing
 Anyone is welcome to contribute! Feel free to open pull requests.
 
 ## Issues and Bugs
-Please report any bugs in the <a href="https://github.com/itschasa/speedrr/issues">Issues</a> section.
+Please report any bugs in the <a href="https://github.com/sgtsquiggs/speedrr/issues">Issues</a> section.
 
 ## Feature Suggestions
-Got an idea for the project? Suggest it <a href="https://github.com/itschasa/speedrr/issues">here</a>!
+Got an idea for the project? Suggest it <a href="https://github.com/sgtsquiggs/speedrr/issues">here</a>!

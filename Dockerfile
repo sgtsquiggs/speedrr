@@ -1,15 +1,31 @@
-FROM python:3.10
+FROM ghcr.io/astral-sh/uv:python3.10-bookworm-slim AS builder
 
-# Links the GHCR package to this repository. Without image.source the package
-# is orphaned: it shows no repo, no README, and a reduced settings page.
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
+
+WORKDIR /home
+
+COPY pyproject.toml uv.lock ./
+
+# --frozen fails the build if uv.lock is stale rather than silently
+# resolving something new. That is the property that would have prevented
+# the qBittorrent 5.2 breakage in the first place.
+RUN uv sync --frozen --no-dev
+
+
+FROM python:3.10-slim
+
+# Links the GHCR package to this repository. Without image.source the
+# package is orphaned: no repo, no README, reduced settings page.
 LABEL org.opencontainers.image.source="https://github.com/sgtsquiggs/speedrr"
 LABEL org.opencontainers.image.description="speedrr, patched to run on qBittorrent 5.2+"
 LABEL org.opencontainers.image.licenses="GPL-3.0"
 
-ADD . /home
-
 WORKDIR /home
 
-RUN pip install -r requirements.txt
+COPY --from=builder /home/.venv /home/.venv
+COPY . /home
+
+ENV PATH="/home/.venv/bin:$PATH"
 
 CMD ["python", "./main.py"]

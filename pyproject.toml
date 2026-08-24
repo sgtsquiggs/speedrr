@@ -1,0 +1,55 @@
+[project]
+name = "speedrr"
+version = "1.2.1"
+description = "Dynamic upload and download speed manager for torrenting"
+requires-python = ">=3.10"
+dependencies = [
+    # 2025.11.0 is the first release that accepts an empty 204 body as a
+    # successful login. qBittorrent 5.2.0 changed the WebAPI to answer 204
+    # where it used to answer 200 "Ok."; older releases compare the body to
+    # "Ok." and raise LoginFailed on a login that actually succeeded.
+    "qbittorrent-api>=2025.11.0",
+    # 1.0.0 moved YAMLWizard out of the top-level namespace, which breaks
+    # helpers/config.py at import. 0.39.1 is the last 0.x.
+    "dataclass-wizard>=0.39.1,<1.0.0",
+    # pytest-httpx pins httpx==0.28.*; widening this makes the dev group
+    # unresolvable.
+    "httpx>=0.28,<0.29",
+    "transmission-rpc>=7.0.12,<8",
+    "PyYAML>=6.0.3,<7",
+    "colorama>=0.4.6",
+]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "pyright",
+    "pytest",
+    "pytest-httpx",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+# verify_qbt.py runs standalone inside the container: it must sys.path.insert
+# and os.chdir to /home before importing the app's own packages.
+"scripts/verify_qbt.py" = ["E402"]
+
+[tool.pyright]
+include = ["clients", "helpers", "modules", "main.py"]
+exclude = ["tests"]
+pythonVersion = "3.10"
+typeCheckingMode = "basic"
