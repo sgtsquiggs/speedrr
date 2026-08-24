@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal
 
-from dataclass_wizard import YAMLWizard  # type: ignore
+from dataclass_wizard.mixins.yaml import YAMLWizard  # type: ignore
 
 
 @dataclass(frozen=True)

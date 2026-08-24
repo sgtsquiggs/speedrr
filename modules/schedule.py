@@ -1,5 +1,5 @@
 import threading
-from datetime import datetime, time, timedelta, timezone
+from datetime import UTC, datetime, time, timedelta
 from time import sleep
 
 from helpers.config import ScheduleConfig, SpeedrrConfig
@@ -87,7 +87,7 @@ class ScheduleThread(threading.Thread):
         else:
             self._download_reduce_by = self._config.download
 
-        self.timezone = datetime.now(timezone.utc).astimezone().tzinfo
+        self.timezone = datetime.now(UTC).astimezone().tzinfo
         logger.info("<ScheduleThread> Using timezone: %s", self.timezone)
 
     def calculate_next_occurrence(self, hour: int, minute: int) -> datetime:
