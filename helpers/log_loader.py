@@ -5,7 +5,14 @@ import sys
 import traceback
 from types import TracebackType
 
-from colorama import Fore
+# ANSI SGR foreground colours. These were previously sourced via colorama's
+# Fore constants, but colorama.init() was never called -- on Linux, the only
+# runtime this ships to, it supplied these five literals and nothing else.
+GREY = "\x1b[90m"
+YELLOW = "\x1b[33m"
+LIGHT_RED = "\x1b[91m"
+RED = "\x1b[31m"
+RESET = "\x1b[39m"
 
 logger_name = "speedrr"
 default_stdout_log_level = logging.INFO
@@ -15,11 +22,11 @@ log_format = "[%(asctime)s] [%(levelname)s] %(message)s (%(filename)s:%(lineno)d
 
 class ColourFormatter(logging.Formatter):
     FORMATS = {
-        logging.DEBUG: Fore.LIGHTBLACK_EX + log_format + Fore.RESET,
-        logging.INFO: log_format + Fore.RESET,
-        logging.WARNING: Fore.YELLOW + log_format + Fore.RESET,
-        logging.ERROR: Fore.LIGHTRED_EX + log_format + Fore.RESET,
-        logging.CRITICAL: Fore.RED + log_format + Fore.RESET,
+        logging.DEBUG: GREY + log_format + RESET,
+        logging.INFO: log_format + RESET,
+        logging.WARNING: YELLOW + log_format + RESET,
+        logging.ERROR: LIGHT_RED + log_format + RESET,
+        logging.CRITICAL: RED + log_format + RESET,
     }
 
     def format(self, record: logging.LogRecord) -> str:
