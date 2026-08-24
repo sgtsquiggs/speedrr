@@ -20,8 +20,8 @@ from importlib.metadata import version
 sys.path.insert(0, "/home")
 os.chdir("/home")
 
-from helpers.config import SpeedrrConfig
 from clients.qbittorrent import qBittorrentClient
+from helpers.config import SpeedrrConfig
 
 CONFIG = os.environ.get("SPEEDRR_CONFIG", "/data/config.yaml")
 

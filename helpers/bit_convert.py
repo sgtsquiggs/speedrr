@@ -1,7 +1,3 @@
-from typing import Union
-
-
-
 bit_convertion_dict = {
     "bit": 1,
     "B": 8,
@@ -33,6 +29,6 @@ bit_convertion_dict = {
 }
 
 
-def bit_conv(inp: Union[int, float], inp_type: str, out_type: str) -> float:
+def bit_conv(inp: int | float, inp_type: str, out_type: str) -> float:
     "Convert an input in one type to an output in another type, to 3dp."
     return round(inp * bit_convertion_dict[inp_type] / bit_convertion_dict[out_type], 3)

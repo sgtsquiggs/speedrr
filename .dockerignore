@@ -1,0 +1,34 @@
+# Allow-list: exclude everything, then re-include only what the image
+# needs. This is deliberate rather than a deny-list: a deny-list only
+# excludes what someone remembered to name, so any local/untracked/
+# newly-created file (task briefs, review diffs, docs, etc.) would
+# silently land in the published (public) image. An allow-list can't
+# leak anything new by omission.
+*
+
+!main.py
+!config.yaml
+!pyproject.toml
+!uv.lock
+!LICENSE
+!README.md
+
+!clients/
+clients/*
+!clients/*.py
+
+!helpers/
+helpers/*
+!helpers/*.py
+
+!modules/
+modules/*
+!modules/*.py
+
+!scripts/
+scripts/*
+!scripts/*.py
+
+!logs/
+logs/*
+!logs/.gitkeep
