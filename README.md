@@ -4,6 +4,14 @@
     <h1>speedrr - Dynamic Upload and Download Speed Manager for Torrenting</h1>
 </p>
 
+> ### About this fork
+>
+> A maintenance fork of [itschasa/speedrr](https://github.com/itschasa/speedrr), which has
+> had no commits since 2025-07-16. It exists to keep speedrr running against
+> **qBittorrent 5.2+**, and changes nothing about how speedrr works or is configured.
+>
+> Image: `ghcr.io/sgtsquiggs/speedrr`.
+
 Change your torrent client's upload speed dynamically, on certain events such as:
 - When a Plex/Jellyfin/Emby stream starts
 - Time of day and day of the week
